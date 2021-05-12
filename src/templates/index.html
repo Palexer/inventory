@@ -1,0 +1,51 @@
+{{define "body"}}
+<h1>Inventory</h1>
+
+<div style="text-align: center;">
+	<button id="add-button" class="button button-main">
+		Add Item
+	</button>
+
+	<button id="delete-button" class="button button-main">
+		Delete Item
+	</button>
+</div>
+
+<!--modals: -->
+<div id="add-form" class="modal">
+	<div class="modal-content">
+		<span class="close">&times;</span>
+		<form method="POST" action="/add" target="dummyframe" autocomplete="off">
+			<input type="text" placeholder="Name" name="name" id="name" required />
+			<br />
+			<input type="text" placeholder="Description" name="description" id="description" required />
+			<br />
+			<input type="number" placeholder="Count" min="0" name="count" id="count" required />
+			<br />
+			<input type="date" placeholder="Date" name="date" id="date" required />
+			<br />
+			<input type="submit" value="Add" class="button button-green" id="submitAdd" />
+			<br />
+		</form>
+	</div>
+</div>
+
+<div id="delete-form" class="modal">
+	<div class="modal-content">
+		<span class="close">&times;</span>
+		<form method="POST" action="/delete" target="dummyframe" autocomplete="off">
+			<input type="number" placeholder="Number" min="1" name="number" id="number" required />
+			<br />
+			<input type="submit" value="Delete" class="button button-red" onclick="addDataToList()" id="submitDelete" />
+			<br />
+		</form>
+	</div>
+</div>
+
+<br>
+
+<table id="main-table" class="table-sortable">
+	{{.TableData}}
+</table>
+<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+{{ end }}

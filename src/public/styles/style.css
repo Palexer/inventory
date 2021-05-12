@@ -1,0 +1,185 @@
+:root {
+	--color-main-focus: #14a8e2;
+	--color-main-focus-dark: #0a729b;
+	--color-green: #1bb51d;
+	--color-green-dark: #118e13;
+	--color-red: #e21f1f;
+	--color-red-dark: #8e1111;
+	--color-gray: #dddddd;
+	--color-main-gray-dark: #b7b7b7;
+	--transition-time: 0.2s;
+	--main-border-radius: 4px;
+}
+
+* {
+	font-size: 14pt;
+	color: black;
+	background-color: white;
+	margin: 0px;
+	padding: 0px;
+	font-family: sans-serif;
+}
+
+body {
+	margin: 20px;
+}
+
+h1 {
+	text-align: center;
+	margin: 15px;
+	font-size: 24pt;
+}
+
+/*table*/
+
+table {
+	margin: 0 auto;
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
+table tr {
+	border: 2px solid black;
+}
+
+table td {
+	border: 2px solid black;
+	padding: 4px 10px;
+}
+
+table thead tr th {
+	border: 2px solid black;
+	padding: 4px 10px;
+}
+
+table thead {
+	font-weight: bold;
+}
+
+form {
+	text-align: center;
+	margin: 25px;
+}
+
+form input {
+	border: 2px solid black;
+	border-radius: var(--main-border-radius);
+	margin: 10px;
+	padding: 3px 5px;
+}
+
+.table-sortable th {
+  cursor: pointer;
+}
+
+.table-sortable th:hover {
+	background-color: var(--color-gray);
+}
+
+.table-sortable .th-sort-asc::after {
+  content: "\25b4";
+}
+
+.table-sortable .th-sort-desc::after {
+  content: "\25be";
+}
+
+.table-sortable .th-sort-asc::after,
+.table-sortable .th-sort-desc::after {
+  margin-left: 5px;
+}
+
+.table-sortable .th-sort-asc,
+.table-sortable .th-sort-desc {
+  background: var(--color-gray);
+}
+
+/*buttons*/
+
+.button {
+	margin: 0 auto;
+	padding: 5px 10px;
+	border: none;
+	border-radius: var(--main-border-radius);
+	transition: --var(transition-time);
+}
+
+.button:hover {
+	cursor: pointer;
+}
+
+.button-green {
+	background-color: var(--color-green);
+	color: white;
+}
+
+.button-green:hover {
+	background-color: var(--color-green-dark);
+}
+
+.button-red {
+	background-color: var(--color-red);
+	color: white;
+}
+
+.button-red:hover {
+	background-color: var(--color-red-dark);
+}
+
+.button-normal {
+	background-color: var(--color-gray);
+}
+
+.button-normal:hover {
+	background-color: var(--color-gray-dark);
+}
+
+.button-main {
+	color: white;
+	background-color: var(--color-main-focus);
+}
+
+.button-main:hover{
+	background-color: var(--color-main-focus-dark);
+}
+
+/*modal*
+
+/* The Modal (background) */
+.modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	padding-top: 100px; /* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0,0,0); /* Fallback color */
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
