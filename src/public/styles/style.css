@@ -5,9 +5,9 @@
 	--color-green-dark: #118e13;
 	--color-red: #e21f1f;
 	--color-red-dark: #8e1111;
-	--color-gray: #dddddd;
-	--color-main-gray-dark: #b7b7b7;
-	--transition-time: 0.2s;
+	--color-gray: #798589;
+	--color-gray-dark: #5a6266;
+	--transition-time: 0.25s;
 	--main-border-radius: 4px;
 }
 
@@ -69,7 +69,8 @@ form input {
 }
 
 .table-sortable th {
-  cursor: pointer;
+	transition: var(--transition-time);
+	cursor: pointer;
 }
 
 .table-sortable th:hover {
@@ -77,21 +78,21 @@ form input {
 }
 
 .table-sortable .th-sort-asc::after {
-  content: "\25b4";
+	content: "\25b4";
 }
 
 .table-sortable .th-sort-desc::after {
-  content: "\25be";
+	content: "\25be";
 }
 
 .table-sortable .th-sort-asc::after,
 .table-sortable .th-sort-desc::after {
-  margin-left: 5px;
+	margin-left: 5px;
 }
 
 .table-sortable .th-sort-asc,
 .table-sortable .th-sort-desc {
-  background: var(--color-gray);
+	background: var(--color-gray);
 }
 
 /*buttons*/
@@ -101,7 +102,8 @@ form input {
 	padding: 5px 10px;
 	border: none;
 	border-radius: var(--main-border-radius);
-	transition: --var(transition-time);
+	transition: var(--transition-time);
+	color: white;
 }
 
 .button:hover {
@@ -110,7 +112,6 @@ form input {
 
 .button-green {
 	background-color: var(--color-green);
-	color: white;
 }
 
 .button-green:hover {
@@ -119,7 +120,6 @@ form input {
 
 .button-red {
 	background-color: var(--color-red);
-	color: white;
 }
 
 .button-red:hover {
@@ -182,4 +182,11 @@ form input {
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+
+/* print only the table */
+@media print {
+	.button {
+		display: none;
+	}
 }
