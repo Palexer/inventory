@@ -29,7 +29,8 @@ document.getElementById("submitAdd").onclick = function () {
 	row.insertCell(1).innerHTML = document.getElementById("name").value
 	row.insertCell(2).innerHTML = document.getElementById("description").value
 	row.insertCell(3).innerHTML = document.getElementById("count").value
-	row.insertCell(4).innerHTML = document.getElementById("date").value
+	let splittedDate = document.getElementById("date").value.split("-")
+	row.insertCell(4).innerHTML = splittedDate[2] + "." + splittedDate[1] + "." + splittedDate[0]
 
 	// hide modal
 	addModal.style.display = "none"

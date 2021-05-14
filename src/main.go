@@ -74,7 +74,14 @@ func addHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	r.ParseForm()
 
-	err := data.add([]string{r.FormValue("name"), r.FormValue("description"), r.FormValue("count"), r.FormValue("date")})
+	// AUCH FRONTEND
+	t, err := time.Parse("2006-01-02", r.FormValue("date"))
+	if err != nil {
+		log.Printf("failed to parse time: %v\n", err)
+	}
+	fmt.Println(t.String())
+
+	err = data.add([]string{r.FormValue("name"), r.FormValue("description"), r.FormValue("count"), t.Format("02.01.2006")})
 	if err != nil {
 		log.Printf("failed to add data: %v", err)
 	}
