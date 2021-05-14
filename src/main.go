@@ -35,6 +35,11 @@ func handleRoot(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// remove cache file when reloading page
+	if err := os.Remove(data.cachePath); err != nil {
+		log.Printf("failed to remove cache file %v\n", err)
+	}
+
 	// load data
 	err := data.loadData()
 	if err != nil {
@@ -44,8 +49,10 @@ func handleRoot(w http.ResponseWriter, r *http.Request) {
 	// template
 	err = rootTemplate.ExecuteTemplate(w, "base", struct {
 		TableData string
+		CacheData [][]string
 	}{
 		TableData: data.getDataHTML(),
+		CacheData: data.cache,
 	})
 
 	if err != nil {
@@ -120,22 +127,6 @@ func main() {
 	// use custom path if specified
 	if *customPath != "" {
 		data.contentPath = *customPath
-	}
-
-	// create data and cache file if they doesn't exist
-	if _, err := os.Stat(data.contentPath); os.IsNotExist(err) {
-		_, err := os.Create(data.contentPath)
-		if err != nil {
-			log.Fatalf("failed to create data file: %v\n", err)
-		}
-		// default table heading
-		data.add([]string{"Name", "Description", "Count", "Date"})
-	}
-	if _, err := os.Stat(data.cachePath); os.IsNotExist(err) {
-		_, err := os.Create(data.cachePath)
-		if err != nil {
-			log.Fatalf("failed to create cache file: %v\n", err)
-		}
 	}
 
 	// server
