@@ -1,18 +1,21 @@
+let undocache = new Array()
+
+// add/remove item modals
 // for "add item"
 // get the modal
 let addModal = document.getElementById("add-form")
 
-// When the user clicks the button, open the modal 
+// when the user clicks the button, open the modal 
 document.getElementById("add-button").onclick = function () {
 	addModal.style.display = "block";
 }
 
-// When the user clicks on <span> (x), close the modal
+// when the user clicks on <span> (x), close the modal
 document.getElementsByClassName("close")[0].onclick = function () {
 	addModal.style.display = "none";
 }
 
-// When the user clicks anywhere outside of the modal, close it
+// when the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
 	if (event.target == addModal) {
 		addModal.style.display = "none";
@@ -53,14 +56,48 @@ window.onclick = function (event) {
 	}
 }
 
+// delete the row from the HTML table
 document.getElementById("submitDelete").onclick = function () {
-	// delete the row from the HTML table
-	document.getElementsByTagName("tr")[parseInt(document.getElementById("number").value)].remove()
+	let n = parseInt(document.getElementById("number").value)
+	if (n > 0) {
+		let tds = document.getElementsByTagName("td")
 
-	// hide modal
-	deleteModal.style.display = "none"
-
+		for (i = 0; i < tds.length; i++) {
+			if (parseInt(tds[i].innerHTML) == n) {
+				undocache.push(tds[i].closest("tr"))
+				tds[i].closest("tr").remove()
+				// hide modal
+				deleteModal.style.display = "none"
+				return
+			}
+		}
+	}
 }
+
+// undo button
+document.getElementById("undo-button").onclick = function () {
+	if (undocache.length < 1) {
+		alert("No elements in undo cache")
+		return
+	}
+
+	if (confirm("Restore? Are you sure?")) {
+		// undo request for backend
+		let xhr = new XMLHttpRequest()
+		xhr.open("POST", "/undo", true)
+		xhr.send()
+
+		// add row back on frontend
+		let row = document.getElementById("main-table").insertRow(-1)
+		for (i = 0; i < document.getElementsByTagName("th").length; i++) {
+			row.insertCell(i).innerHTML = undocache[undocache.length - 1].children[i].innerHTML
+		}
+
+		// remove last element from cache
+		undocache.pop()
+	}
+}
+
 /**
  * Sorts a HTML table.
  * 
@@ -104,3 +141,6 @@ document.querySelectorAll(".table-sortable th").forEach(headerCell => {
 		sortTableByColumn(tableElement, headerIndex, !currentIsAscending);
 	});
 });
+
+document.getElementById("print-button").onclick = function () {window.print()}
+
