@@ -25,10 +25,11 @@ window.onclick = function (event) {
 document.getElementById("submitAdd").onclick = function () {
 	// add the entered data to the HTML table
 	let row = document.getElementById("main-table").insertRow(-1)
-	row.insertCell(0).innerHTML = document.getElementById("name").value
-	row.insertCell(1).innerHTML = document.getElementById("description").value
-	row.insertCell(2).innerHTML = document.getElementById("count").value
-	row.insertCell(3).innerHTML = document.getElementById("date").value
+	row.insertCell(0).innerHTML = document.getElementsByTagName("tr").length - 1
+	row.insertCell(1).innerHTML = document.getElementById("name").value
+	row.insertCell(2).innerHTML = document.getElementById("description").value
+	row.insertCell(3).innerHTML = document.getElementById("count").value
+	row.insertCell(4).innerHTML = document.getElementById("date").value
 
 	// hide modal
 	addModal.style.display = "none"
