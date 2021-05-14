@@ -5,7 +5,7 @@
 	--color-green-dark: #118e13;
 	--color-red: #e21f1f;
 	--color-red-dark: #8e1111;
-	--color-gray: #798589;
+	--color-gray: #757e82;
 	--color-gray-dark: #5a6266;
 	--transition-time: 0.25s;
 	--main-border-radius: 4px;
@@ -98,7 +98,7 @@ form input {
 /*buttons*/
 
 .button {
-	margin: 0 auto;
+	margin: 5px;
 	padding: 5px 10px;
 	border: none;
 	border-radius: var(--main-border-radius);
@@ -162,30 +162,34 @@ form input {
 
 /* Modal Content */
 .modal-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80%;
 }
 
 /* The Close Button */
 .close {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+	color: #aaaaaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
 }
 
 .close:hover,
 .close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
 }
 
 /* print only the table */
 @media print {
+	* {
+		font-size: 12pt;
+	}
+	
 	.button {
 		display: none;
 	}
