@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 	"text/template"
 	"time"
 )
@@ -19,6 +20,8 @@ type textConfirmation struct {
 // rootTemplate references the specified rootTemplate and caches the parsed results
 // to help speed up response times.
 var rootTemplate = template.Must(template.ParseFiles("./templates/base.html", "./templates/index.html"))
+
+var version = "0.7"
 
 var data = csvData{
 	contentPath: "inventory_data.csv",
@@ -158,6 +161,13 @@ func main() {
 	customPath := flag.String("path", "", "specify a custom path to the data file")
 	customPort := flag.Uint("port", 0, "specify a custom port (default: 8080)")
 	flag.Parse()
+
+	for _, v := range flag.Args() {
+		if strings.ToLower(v) == "version" {
+			fmt.Printf("inventory version %s\n", version)
+			os.Exit(0)
+		}
+	}
 
 	// use custom path if specified
 	if *customPath != "" {
