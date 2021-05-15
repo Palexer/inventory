@@ -15,4 +15,5 @@
 # vendor/
 
 inventory_data.csv
+inventory_cache.csv
 
