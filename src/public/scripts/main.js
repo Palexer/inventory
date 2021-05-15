@@ -159,10 +159,32 @@ document.querySelectorAll(".table-sortable th").forEach(headerCell => {
 	});
 });
 
+// escape to close modals
 document.addEventListener("keydown", function (ev) {
 	if (ev.key == "Escape") {
 		document.getElementById("add-form").style.display = "none"
 		document.getElementById("delete-form").style.display = "none"
 	}
 })
+
+// delete all button
+document.getElementById("delete-all-btn").onclick = function () {
+	if (confirm("Are you sure, that you want to delete the entire table?")) {
+		let text = prompt("Please type 'Inventory' in the text box to confirm the deletion of the entire table: ")
+		if (text == "Inventory") {
+			// send deletion request
+			let xhr = new XMLHttpRequest()
+			xhr.open("POST", "/deleteall", true)
+			xhr.setRequestHeader("Content-Type", "application/json")
+			xhr.send(JSON.stringify({Text: text}))
+
+			// remove table on frontend
+			document.getElementById("main-table").remove()
+			alert("Deletion successful. Reload the page to create a new table.")
+
+		} else {
+			alert("Failed to delete table: confirmation failed")
+		}
+	}
+}
 

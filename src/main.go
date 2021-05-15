@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"log"
@@ -10,6 +11,10 @@ import (
 	"text/template"
 	"time"
 )
+
+type textConfirmation struct {
+	Text string `json:"Text"`
+}
 
 // rootTemplate references the specified rootTemplate and caches the parsed results
 // to help speed up response times.
@@ -37,7 +42,7 @@ func handleRoot(w http.ResponseWriter, r *http.Request) {
 
 	// remove cache file when reloading page
 	if err := os.Remove(data.cachePath); err != nil {
-		log.Printf("failed to remove cache file %v\n", err)
+		log.Printf("failed to remove cache file: %v\n", err)
 	}
 
 	// load data
@@ -74,12 +79,10 @@ func addHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	r.ParseForm()
 
-	// AUCH FRONTEND
 	t, err := time.Parse("2006-01-02", r.FormValue("date"))
 	if err != nil {
 		log.Printf("failed to parse time: %v\n", err)
 	}
-	fmt.Println(t.String())
 
 	err = data.add([]string{r.FormValue("name"), r.FormValue("description"), r.FormValue("count"), t.Format("02.01.2006")})
 	if err != nil {
@@ -108,6 +111,32 @@ func deleteHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func deleteAllHandler(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/deleteall" {
+		http.Error(w, "404 not found.", http.StatusNotFound)
+		return
+	}
+
+	if r.Method != "POST" {
+		http.Error(w, "Method is not supported.", http.StatusNotFound)
+		return
+	}
+	decoder := json.NewDecoder(r.Body)
+	var text textConfirmation
+	err := decoder.Decode(&text)
+	if err != nil {
+		log.Printf("failed to decode json data: %v\n", err)
+	}
+
+	if text.Text == "Inventory" {
+		// delete file (whole table) and create backup
+		err = data.deleteAllAndBackUp()
+		if err != nil {
+			log.Printf("failed to delete file and back up: %v\n", err)
+		}
+	}
+}
+
 func undoHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/undo" {
 		http.Error(w, "404 not found.", http.StatusNotFound)
@@ -118,7 +147,6 @@ func undoHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Method is not supported.", http.StatusNotFound)
 		return
 	}
-	fmt.Println(data.cache)
 	err := data.restore()
 	if err != nil {
 		log.Println(err)
@@ -141,6 +169,7 @@ func main() {
 	mux.Handle("/public/", public())
 	mux.HandleFunc("/add", addHandler)
 	mux.HandleFunc("/delete", deleteHandler)
+	mux.HandleFunc("/deleteall", deleteAllHandler)
 	mux.HandleFunc("/undo", undoHandler)
 	mux.HandleFunc("/", handleRoot)
 

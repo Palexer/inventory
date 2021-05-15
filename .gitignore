@@ -14,6 +14,8 @@
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
+# files created by the application
 inventory_data.csv
 inventory_cache.csv
+inventory_backup.csv
 

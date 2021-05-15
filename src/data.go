@@ -208,3 +208,43 @@ func (d *csvData) restore() error {
 	defer writer.Flush()
 	return nil
 }
+
+// deleteAllAndBackUp deletes the currently used CSV file and creates a backup of it
+func (d *csvData) deleteAllAndBackUp() error {
+	if err := d.loadData(); err != nil {
+		return err
+	}
+
+	err := os.Remove(d.contentPath)
+	if err != nil {
+		return err
+	}
+
+	err = os.Remove(d.cachePath)
+	if err != nil {
+		return err
+	}
+
+	if _, err := os.Stat("inventory_backup.csv"); err == nil {
+		err := os.Remove("inventory_backup.csv")
+		if err != nil {
+			return err
+		}
+	}
+
+	file, err := os.Create("inventory_backup.csv")
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	writer := csv.NewWriter(file)
+	for _, rec := range d.content {
+		err = writer.Write(rec)
+		if err != nil {
+			return err
+		}
+	}
+	defer writer.Flush()
+	return nil
+}
