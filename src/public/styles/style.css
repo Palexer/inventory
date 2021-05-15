@@ -205,3 +205,14 @@ form input {
 		display: none;
 	}
 }
+
+/* mobile optimization */
+@media only screen and (max-width: 600px) {
+	* {
+		font-size: 12pt;
+	}
+	table {
+		display: block;
+		overflow-y: scroll;
+	}
+}
