@@ -100,9 +100,13 @@ document.getElementById("undo-button").onclick = function () {
 	}
 }
 
+// print button
+document.getElementById("print-button").onclick = function () {window.print()}
+
+// sort table
 /**
  * Sorts a HTML table.
- * 
+ *
  * @param {HTMLTableElement} table The table to sort
  * @param {number} column The index of the column to sort
  * @param {boolean} asc Determines if the sorting will be in ascending
@@ -114,8 +118,19 @@ function sortTableByColumn(table, column, asc = true) {
 
 	// Sort each row
 	const sortedRows = rows.sort((a, b) => {
-		const aColText = a.querySelector(`td:nth-child(${column + 1})`).textContent.trim();
-		const bColText = b.querySelector(`td:nth-child(${column + 1})`).textContent.trim();
+		let aColText = a.querySelector(`td:nth-child(${column + 1})`).textContent.trim();
+		let bColText = b.querySelector(`td:nth-child(${column + 1})`).textContent.trim();
+
+		let splittedA = aColText.split(".")
+
+		if (!isNaN(aColText)) {
+			aColText = parseFloat(aColText)
+			bColText = parseFloat(bColText)
+
+		} else if (new Date(splittedA[2], splittedA[1], splittedA[0]).toString() != "Invalid Date") {
+			aColText = new Date(aColText)
+			bColText = new Date(bColText)
+		}
 
 		return aColText > bColText ? (1 * dirModifier) : (-1 * dirModifier);
 	});
@@ -144,5 +159,10 @@ document.querySelectorAll(".table-sortable th").forEach(headerCell => {
 	});
 });
 
-document.getElementById("print-button").onclick = function () {window.print()}
+document.addEventListener("keydown", function (ev) {
+	if (ev.key == "Escape") {
+		document.getElementById("add-form").style.display = "none"
+		document.getElementById("delete-form").style.display = "none"
+	}
+})
 
