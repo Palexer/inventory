@@ -30,6 +30,19 @@ h1 {
 	font-size: 24pt;
 }
 
+#info-btn {
+	position: absolute;
+	right: 0;
+	display: inline-block;
+	font-size: 16pt;
+	padding: 5px 10px;
+	color: var(--color-gray);
+}
+
+#info-btn:hover {
+	color: var(--color-gray-dark);
+}
+
 /*table*/
 
 table {
@@ -202,6 +215,10 @@ form input {
 	}
 
 	#delete-all-btn {
+		display: none;
+	}
+
+	#info-btn {
 		display: none;
 	}
 }

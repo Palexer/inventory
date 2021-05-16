@@ -1,6 +1,27 @@
 let undocache = new Array()
 
-// add/remove item modals
+// add/remove item and info modals
+// info modal
+// get the modal
+let infoModal = document.getElementById("info-modal")
+
+// when the user clicks the button, open the modal 
+document.getElementById("info-btn").onclick = function () {
+	infoModal.style.display = "block";
+}
+
+// when the user clicks on <span> (x), close the modal
+document.getElementsByClassName("close")[0].onclick = function () {
+	infoModal.style.display = "none";
+}
+
+// when the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+	if (event.target == infoModal) {
+		addModal.style.display = "none";
+	}
+}
+
 // for "add item"
 // get the modal
 let addModal = document.getElementById("add-form")
@@ -11,7 +32,7 @@ document.getElementById("add-button").onclick = function () {
 }
 
 // when the user clicks on <span> (x), close the modal
-document.getElementsByClassName("close")[0].onclick = function () {
+document.getElementsByClassName("close")[1].onclick = function () {
 	addModal.style.display = "none";
 }
 
@@ -47,7 +68,7 @@ document.getElementById("delete-button").onclick = function () {
 }
 
 // When the user clicks on <span> (x), close the modal
-document.getElementsByClassName("close")[1].onclick = function () {
+document.getElementsByClassName("close")[2].onclick = function () {
 	deleteModal.style.display = "none";
 }
 
@@ -75,6 +96,7 @@ document.getElementById("submitDelete").onclick = function () {
 		}
 	}
 }
+
 
 // undo button
 document.getElementById("undo-button").onclick = function () {

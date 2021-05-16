@@ -1,4 +1,12 @@
 {{define "body"}}
+
+<div style="position: relative;">
+	<button class="button" id="info-btn">
+		&#128712;
+	</button>
+</div>
+<br>
+
 <h1>Inventory</h1>
 
 <div style="text-align: center;">
@@ -22,6 +30,19 @@
 </div>
 
 <!--modals: -->
+
+<div id="info-modal" class="modal">
+	<div class="modal-content">
+		<span class="close">&times;</span>
+		<h2>
+			Info
+		</h2>
+		<p>License: BSD-3-Clause License</p>
+		<br>
+		<a href="https://github.com/Palexer/inventory" target="_blank">Git Repository</a>
+	</div>
+</div>
+
 <div id="add-form" class="modal">
 	<div class="modal-content">
 		<span class="close">&times;</span>
