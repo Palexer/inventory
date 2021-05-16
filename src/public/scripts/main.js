@@ -64,7 +64,11 @@ let deleteModal = document.getElementById("delete-form")
 
 // When the user clicks the button, open the modal 
 document.getElementById("delete-button").onclick = function () {
-	deleteModal.style.display = "block";
+	if (document.getElementsByTagName("tr").length > 1) {
+		deleteModal.style.display = "block";
+	} else {
+		alert("There is nothing to delete.")
+	}
 }
 
 // When the user clicks on <span> (x), close the modal
