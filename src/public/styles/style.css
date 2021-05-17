@@ -14,33 +14,27 @@
 * {
 	font-size: 14pt;
 	color: black;
-	background-color: white;
 	margin: 0px;
 	padding: 0px;
 	font-family: sans-serif;
 }
 
-body {
-	margin: 20px;
-}
-
 h1 {
 	text-align: center;
-	margin: 15px;
+	margin: 20px;
 	font-size: 24pt;
 }
 
-#info-btn {
-	position: absolute;
-	right: 0;
-	display: inline-block;
-	font-size: 16pt;
-	padding: 5px 10px;
-	color: var(--color-gray);
+.footer {
+	margin: 0px;
+	margin-top: 30px;
+	padding: 30px;
+	background-color: #343a40!important;
+	height: 100px;
 }
 
-#info-btn:hover {
-	color: var(--color-gray-dark);
+.footer * {
+	color: white;
 }
 
 /*table*/
@@ -52,16 +46,16 @@ table {
 }
 
 table tr {
-	border: 2px solid black;
+	border: 1px solid black;
 }
 
 table td {
-	border: 2px solid black;
+	border: 1px solid black;
 	padding: 4px 10px;
 }
 
 table thead tr th {
-	border: 2px solid black;
+	border: 1px solid black;
 	padding: 4px 10px;
 }
 
@@ -75,10 +69,13 @@ form {
 }
 
 form input {
-	border: 2px solid black;
-	border-radius: var(--main-border-radius);
-	margin: 10px;
-	padding: 3px 5px;
+	width: 35%;
+	padding: 8px 16px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
 }
 
 .table-sortable th {
@@ -157,10 +154,9 @@ form input {
 }
 
 #delete-all-btn {
-    margin: 0 auto;
-	margin-top: 20px;
-	margin-bottom: 20px;
-    display: block;
+	display: block;
+	margin: 0 auto;
+	margin-top: 30px;
 }
 
 /*modal*
@@ -210,15 +206,11 @@ form input {
 		font-size: 12pt;
 	}
 	
-	.button {
+	.button, .footer {
 		display: none;
 	}
 
-	#delete-all-btn {
-		display: none;
-	}
-
-	#info-btn {
+	#delete-all-btn, #info-btn {
 		display: none;
 	}
 }
