@@ -1,10 +1,10 @@
 :root {
 	--color-main-focus: #14a8e2;
-	--color-main-focus-dark: #0a729b;
+	--color-main-focus-dark: #107ba5;
 	--color-green: #1bb51d;
-	--color-green-dark: #118e13;
+	--color-green-dark: #119313;
 	--color-red: #e21f1f;
-	--color-red-dark: #8e1111;
+	--color-red-dark: #b51c1c;
 	--color-gray: #757e82;
 	--color-gray-dark: #5a6266;
 	--transition-time: 0.25s;
@@ -19,21 +19,27 @@
 	font-family: sans-serif;
 }
 
+body {
+	/* make the footer always at the bottom of the page, but not always visible*/
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
 h1 {
 	text-align: center;
 	margin: 20px;
 	font-size: 24pt;
 }
 
-.footer {
-	margin: 0px;
-	margin-top: 30px;
+footer {
+	margin-top: auto;
 	padding: 30px;
 	background-color: #343a40!important;
-	height: 100px;
+	height: auto;
 }
 
-.footer * {
+footer * {
 	color: white;
 }
 
@@ -69,7 +75,7 @@ form {
 }
 
 form input {
-	width: 35%;
+	width: 80%;
 	padding: 8px 16px;
 	margin: 8px 0;
 	display: inline-block;
@@ -157,6 +163,7 @@ form input {
 	display: block;
 	margin: 0 auto;
 	margin-top: 30px;
+	margin-bottom: 30px;
 }
 
 /*modal*
@@ -182,7 +189,7 @@ form input {
 	margin: auto;
 	padding: 20px;
 	border: 1px solid #888;
-	width: 80%;
+	width: 50%;
 }
 
 /* The Close Button */
@@ -206,7 +213,7 @@ form input {
 		font-size: 12pt;
 	}
 	
-	.button, .footer {
+	.button, footer {
 		display: none;
 	}
 
@@ -220,8 +227,13 @@ form input {
 	* {
 		font-size: 12pt;
 	}
+
 	table {
 		display: block;
 		overflow-y: scroll;
+	}
+
+	.modal-content {
+		width: 85%;
 	}
 }

@@ -1,5 +1,5 @@
 {{define "body"}}
-<h1>Inventory</h1>
+<h1>{{.Heading}}</h1>
 
 <div style="text-align: center;">
 	<button id="add-button" class="button button-main">
@@ -22,10 +22,10 @@
 </div>
 
 <!--modals: -->
-<div id="add-form" class="modal">
+<div id="add-form-wrapper" class="modal">
 	<div class="modal-content">
 		<span class="close">&times;</span>
-		<form method="POST" action="/add" target="dummyframe" autocomplete="off">
+		<form id="add-form" method="POST" action="/add" target="dummyframe" autocomplete="off">
 			<input type="text" placeholder="Name" name="name" id="name" required />
 			<br />
 			<input type="text" placeholder="Description" name="description" id="description" required />
@@ -34,19 +34,19 @@
 			<br />
 			<input type="date" placeholder="Date" name="date" id="date" required />
 			<br />
-			<input type="submit" value="Add" class="button button-green" id="submitAdd" />
+			<input type="submit" value="Add" class="button button-green" />
 			<br />
 		</form>
 	</div>
 </div>
 
-<div id="delete-form" class="modal">
+<div id="delete-form-wrapper" class="modal">
 	<div class="modal-content">
 		<span class="close">&times;</span>
-		<form method="POST" action="/delete" target="dummyframe" autocomplete="off">
+		<form method="POST" id="delete-form" action="/delete" target="dummyframe" autocomplete="off">
 			<input type="number" placeholder="Number" min="1" name="number" id="number" required />
 			<br />
-			<input type="submit" value="Delete" class="button button-red" onclick="addDataToList()" id="submitDelete" />
+			<input type="submit" value="Delete" class="button button-red" onclick="addDataToList()" />
 			<br />
 		</form>
 	</div>
@@ -61,12 +61,19 @@
 <button class="button button-red" id="delete-all-btn">
 	Delete Table
 </button>
-<div class="footer">
-	<p style="margin-bottom: 10px;"><strong>Info</strong></p>
-	<p>License: BSD-3-Clause License</p>
-	<a href="https://raw.githubusercontent.com/Palexer/inventory/master/LICENSE" target="_blank">Full License text</a>
-	<br>
-	<a href="https://github.com/Palexer/inventory" target="_blank">Git Repository</a>
-</div>
+
+<footer>
+	<div style="float: left;">
+		<p style="margin-bottom: 10px;"><strong>Info</strong></p>
+		<p>License: BSD-3-Clause License</p>
+		<a href="https://raw.githubusercontent.com/Palexer/inventory/master/LICENSE" target="_blank">Full License
+			text</a>
+		<br>
+		<a href="https://github.com/Palexer/inventory" target="_blank">Git Repository</a>
+	</div>
+	<div style="float: right;">
+		<p style="margin-top: 32px;"> Author: Palexer </p>
+	</div>
+</footer>
 <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
 {{ end }}
