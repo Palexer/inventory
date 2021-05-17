@@ -3,7 +3,7 @@ let undocache = new Array()
 // add/remove item and info modals
 // for "add item"
 // get the modal
-let addModal = document.getElementById("add-form")
+let addModal = document.getElementById("add-form-wrapper")
 
 // when the user clicks the button, open the modal 
 document.getElementById("add-button").onclick = function () {
@@ -22,7 +22,7 @@ window.onclick = function (event) {
 	}
 }
 
-document.getElementById("submitAdd").onclick = function () {
+document.getElementById("add-form").onsubmit = function () {
 	// add the entered data to the HTML table
 	let row = document.getElementById("main-table").insertRow(-1)
 	row.insertCell(0).innerHTML = document.getElementsByTagName("tr").length - 1
@@ -39,7 +39,7 @@ document.getElementById("submitAdd").onclick = function () {
 
 // for "delete item"
 // get the modal
-let deleteModal = document.getElementById("delete-form")
+let deleteModal = document.getElementById("delete-form-wrapper")
 
 // When the user clicks the button, open the modal 
 document.getElementById("delete-button").onclick = function () {
@@ -63,9 +63,9 @@ window.onclick = function (event) {
 }
 
 // delete the row from the HTML table
-document.getElementById("submitDelete").onclick = function () {
+document.getElementById("delete-form").onsubmit = function () {
 	let n = parseInt(document.getElementById("number").value)
-	if (n > 0) {
+	if (n > 0 && n < document.getElementsByTagName("tr").length) {
 		let tds = document.getElementsByTagName("td")
 
 		for (i = 0; i < tds.length; i++) {
@@ -77,6 +77,8 @@ document.getElementById("submitDelete").onclick = function () {
 				return
 			}
 		}
+	} else {
+		alert("Input not in the valid range.")
 	}
 }
 
@@ -167,8 +169,8 @@ document.querySelectorAll(".table-sortable th").forEach(headerCell => {
 // escape to close modals
 document.addEventListener("keydown", function (ev) {
 	if (ev.key == "Escape") {
-		document.getElementById("add-form").style.display = "none"
-		document.getElementById("delete-form").style.display = "none"
+		document.getElementById("add-form-wrapper").style.display = "none"
+		document.getElementById("delete-form-wrapper").style.display = "none"
 		document.getElementById("info-modal").style.display = "none"
 	}
 })
@@ -176,21 +178,17 @@ document.addEventListener("keydown", function (ev) {
 // delete all button
 document.getElementById("delete-all-btn").onclick = function () {
 	if (confirm("Are you sure, that you want to delete the entire table?")) {
-		let text = prompt("Please type 'Inventory' in the text box to confirm the deletion of the entire table: ")
-		if (text == "Inventory") {
-			// send deletion request
-			let xhr = new XMLHttpRequest()
-			xhr.open("POST", "/deleteall", true)
-			xhr.setRequestHeader("Content-Type", "application/json")
-			xhr.send(JSON.stringify({Text: text}))
+		let text = prompt("Please type the deletion key in the text box to confirm the deletion of the entire table: ")
+		// send deletion request
+		let xhr = new XMLHttpRequest()
+		xhr.open("POST", "/deleteall", true)
+		xhr.setRequestHeader("Content-Type", "application/json")
+		xhr.send(JSON.stringify({Text: text}))
 
-			// remove table on frontend
-			document.getElementById("main-table").remove()
-			alert("Deletion successful. Reload the page to create a new table.")
+		// remove table on frontend
+		document.getElementById("main-table").remove()
+		alert("Reload the page to see if the deletion was successful and to create a new table in this case.")
 
-		} else {
-			alert("Failed to delete table: confirmation failed")
-		}
 	}
 }
 

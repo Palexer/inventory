@@ -57,10 +57,10 @@ func handleRoot(w http.ResponseWriter, r *http.Request) {
 	// template
 	err = rootTemplate.ExecuteTemplate(w, "base", struct {
 		TableData string
-		CacheData [][]string
+		Heading   string
 	}{
 		TableData: data.getDataHTML(),
-		CacheData: data.cache,
+		Heading:   data.heading,
 	})
 
 	if err != nil {
@@ -131,7 +131,7 @@ func deleteAllHandler(w http.ResponseWriter, r *http.Request) {
 		log.Printf("failed to decode json data: %v\n", err)
 	}
 
-	if text.Text == "Inventory" {
+	if text.Text == data.key {
 		// delete file (whole table) and create backup
 		err = data.deleteAllAndBackUp()
 		if err != nil {
@@ -158,7 +158,8 @@ func undoHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	// define flags
-	customPath := flag.String("path", "", "specify a custom path to the data file")
+	key := flag.String("key", "", "specify a custom key to delete the table")
+	heading := flag.String("heading", "", "specify a custom table heading")
 	customPort := flag.Uint("port", 0, "specify a custom port (default: 8080)")
 	flag.Parse()
 
@@ -169,9 +170,21 @@ func main() {
 		}
 	}
 
-	// use custom path if specified
-	if *customPath != "" {
-		data.contentPath = *customPath
+	if *key != "" {
+		data.key = *key
+	} else {
+		data.key = "Inventory"
+	}
+
+	if *heading != "" {
+		data.heading = *heading
+	} else {
+		data.heading = "Inventory"
+	}
+
+	port := "8080"
+	if *customPort != 0 {
+		port = fmt.Sprint(*customPort)
 	}
 
 	// server
@@ -182,11 +195,6 @@ func main() {
 	mux.HandleFunc("/deleteall", deleteAllHandler)
 	mux.HandleFunc("/undo", undoHandler)
 	mux.HandleFunc("/", handleRoot)
-
-	port := "8080"
-	if *customPort != 0 {
-		port = fmt.Sprint(*customPort)
-	}
 
 	server := http.Server{
 		Addr:         fmt.Sprintf(":%s", port),

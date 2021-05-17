@@ -12,6 +12,8 @@ type csvData struct {
 	content     [][]string
 	cachePath   string
 	cache       [][]string
+	key         string
+	heading     string
 }
 
 // getDataHTML returns the content of the csvData struct HTML table data
