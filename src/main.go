@@ -19,9 +19,11 @@ type textConfirmation struct {
 
 // rootTemplate references the specified rootTemplate and caches the parsed results
 // to help speed up response times.
-var rootTemplate = template.Must(template.ParseFiles("./templates/base.html", "./templates/index.html"))
-
-var version = "0.7"
+var (
+	rootTemplate = template.Must(template.ParseFiles("./templates/base.html", "./templates/index.html"))
+	limiter      = NewIPRateLimiter(1, 5)
+	version      = "0.8"
+)
 
 var data = csvData{
 	contentPath: "inventory_data.csv",
@@ -198,7 +200,7 @@ func main() {
 
 	server := http.Server{
 		Addr:         fmt.Sprintf(":%s", port),
-		Handler:      mux,
+		Handler:      limitMiddleware(mux),
 		ReadTimeout:  15 * time.Second,
 		WriteTimeout: 15 * time.Second,
 		IdleTimeout:  15 * time.Second,
@@ -208,4 +210,16 @@ func main() {
 	if err := server.ListenAndServe(); err != nil {
 		log.Fatalf("inventory: couldn't start server: %v\n", err)
 	}
+}
+
+func limitMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		limiter := limiter.GetLimiter(r.RemoteAddr)
+		if !limiter.Allow() {
+			http.Error(w, http.StatusText(http.StatusTooManyRequests), http.StatusTooManyRequests)
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
 }
