@@ -134,11 +134,11 @@ function sortTableByColumn(table, column, asc = true) {
 			aColText = parseFloat(aColText)
 			bColText = parseFloat(bColText)
 
-		} else if (new Date(splittedA[2], splittedA[1], splittedA[0]).toString() != "Invalid Date") {
-			aColText = new Date(aColText)
-			bColText = new Date(bColText)
+		} else if (!isNaN(new Date(splittedA[2], splittedA[1], splittedA[0]).getDate())) {
+			aColText = new Date(splittedA[2], splittedA[1], splittedA[0])
+			let splittedB = bColText.split(".")
+			bColText = new Date(splittedB[2], splittedB[1], splittedB[0])
 		}
-
 		return aColText > bColText ? (1 * dirModifier) : (-1 * dirModifier);
 	});
 
