@@ -26,24 +26,19 @@ func (d *csvData) getDataHTML() string {
 	for i, row := range d.content {
 		if i == 0 {
 			html += "<thead>\n\t\t<tr>\n\t\t\t<th>Nr.</th>\n"
-		} else {
-			html += fmt.Sprintf("\t\t<tr>\n\t\t\t<td>%d</td>\n", i)
-		}
 
-		if i != 0 {
-			for _, cell := range row {
-				html += fmt.Sprintf("\t\t\t<td>%s</td>\n", cell)
-			}
-		} else {
 			for _, cell := range row {
 				html += fmt.Sprintf("\t\t\t<th>%s</th>\n", cell)
 			}
-		}
-
-		if i != 0 {
-			html += "\t\t</tr>\n"
-		} else {
 			html += "\t\t</tr>\n\t</thead>\n\t<tbody>\n"
+
+		} else {
+			html += fmt.Sprintf("\t\t<tr>\n\t\t\t<td>%d</td>\n", i)
+
+			for _, cell := range row {
+				html += fmt.Sprintf("\t\t\t<td>%s</td>\n", cell)
+			}
+			html += "\t\t</tr>\n"
 		}
 	}
 	html += "\t</tbody>"
