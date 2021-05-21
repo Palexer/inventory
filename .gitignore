@@ -19,3 +19,5 @@ inventory_data.csv
 inventory_cache.csv
 inventory_backup.csv
 
+dist/
+
