@@ -105,12 +105,37 @@ func deleteHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Method is not supported.", http.StatusNotFound)
 		return
 	}
-	r.ParseForm()
-	n, err := strconv.Atoi(r.FormValue("number"))
+
+	decoder := json.NewDecoder(r.Body)
+	var text textConfirmation
+	err := decoder.Decode(&text)
+	if err != nil {
+		log.Printf("failed to decode json data: %v\n", err)
+	}
+
+	n, err := strconv.Atoi(text.Text)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	err = data.delete(n)
 	if err != nil {
 		log.Println(err)
 	}
-	err = data.delete(n)
+}
+
+func undoHandler(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/undo" {
+		http.Error(w, "404 not found.", http.StatusNotFound)
+		return
+	}
+
+	if r.Method != "POST" {
+		http.Error(w, "Method is not supported.", http.StatusNotFound)
+		return
+	}
+	err := data.restore()
 	if err != nil {
 		log.Println(err)
 	}
@@ -142,8 +167,8 @@ func deleteAllHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func undoHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/undo" {
+func editHandler(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/edit" {
 		http.Error(w, "404 not found.", http.StatusNotFound)
 		return
 	}
@@ -152,9 +177,22 @@ func undoHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Method is not supported.", http.StatusNotFound)
 		return
 	}
-	err := data.restore()
+
+	r.ParseForm()
+	index, err := strconv.Atoi(r.FormValue("index"))
 	if err != nil {
-		log.Println(err)
+		log.Printf("failed to convert index to number: %v\n", err)
+		return
+	}
+
+	t, err := time.Parse("2006-01-02", r.FormValue("date"))
+	if err != nil {
+		log.Printf("failed to parse time: %v\n", err)
+	}
+
+	err = data.edit(index, []string{r.FormValue("name"), r.FormValue("description"), r.FormValue("count"), t.Format("02.01.2006")})
+	if err != nil {
+		log.Printf("failed to add data: %v", err)
 	}
 }
 
@@ -194,8 +232,9 @@ func main() {
 	mux.Handle("/public/", public())
 	mux.HandleFunc("/add", addHandler)
 	mux.HandleFunc("/delete", deleteHandler)
-	mux.HandleFunc("/deleteall", deleteAllHandler)
 	mux.HandleFunc("/undo", undoHandler)
+	mux.HandleFunc("/deleteall", deleteAllHandler)
+	mux.HandleFunc("/edit", editHandler)
 	mux.HandleFunc("/", handleRoot)
 
 	server := http.Server{
@@ -210,16 +249,4 @@ func main() {
 	if err := server.ListenAndServe(); err != nil {
 		log.Fatalf("inventory: couldn't start server: %v\n", err)
 	}
-}
-
-func limitMiddleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		limiter := limiter.GetLimiter(r.RemoteAddr)
-		if !limiter.Allow() {
-			http.Error(w, http.StatusText(http.StatusTooManyRequests), http.StatusTooManyRequests)
-			return
-		}
-
-		next.ServeHTTP(w, r)
-	})
 }

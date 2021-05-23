@@ -1,87 +1,12 @@
+// set/update delete/edit functions
+setDeleteEditFuncs()
+
+// print button
+document.getElementById("print-button").onclick = function () {window.print()}
+
+
+// create frontend undocache
 let undocache = new Array()
-
-// add/remove item and info modals
-// for "add item"
-// get the modal
-let addModal = document.getElementById("add-form-wrapper")
-
-// when the user clicks the button, open the modal 
-document.getElementById("add-button").onclick = function () {
-	addModal.style.display = "block";
-}
-
-// when the user clicks on <span> (x), close the modal
-document.getElementsByClassName("close")[0].onclick = function () {
-	addModal.style.display = "none";
-}
-
-// when the user clicks anywhere outside of the modal, close it
-window.onclick = function (event) {
-	if (event.target == addModal) {
-		addModal.style.display = "none";
-	}
-}
-
-document.getElementById("add-form").onsubmit = function () {
-	// add the entered data to the HTML table
-	let row = document.getElementById("main-table").insertRow(-1)
-	row.insertCell(0).innerHTML = document.getElementsByTagName("tr").length - 1
-	row.insertCell(1).innerHTML = document.getElementById("name").value
-	row.insertCell(2).innerHTML = document.getElementById("description").value
-	row.insertCell(3).innerHTML = document.getElementById("count").value
-	let splittedDate = document.getElementById("date").value.split("-")
-	row.insertCell(4).innerHTML = splittedDate[2] + "." + splittedDate[1] + "." + splittedDate[0]
-
-	// hide modal
-	addModal.style.display = "none"
-}
-
-
-// for "delete item"
-// get the modal
-let deleteModal = document.getElementById("delete-form-wrapper")
-
-// When the user clicks the button, open the modal 
-document.getElementById("delete-button").onclick = function () {
-	if (document.getElementsByTagName("tr").length > 1) {
-		deleteModal.style.display = "block";
-	} else {
-		alert("There is nothing to delete.")
-	}
-}
-
-// When the user clicks on <span> (x), close the modal
-document.getElementsByClassName("close")[1].onclick = function () {
-	deleteModal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function (event) {
-	if (event.target == deleteModal) {
-		deleteModal.style.display = "none";
-	}
-}
-
-// delete the row from the HTML table
-document.getElementById("delete-form").onsubmit = function () {
-	let n = parseInt(document.getElementById("number").value)
-	if (n > 0 && n < document.getElementsByTagName("tr").length) {
-		let tds = document.getElementsByTagName("td")
-
-		for (i = 0; i < tds.length; i++) {
-			if (parseInt(tds[i].innerHTML) == n) {
-				undocache.push(tds[i].closest("tr"))
-				tds[i].closest("tr").remove()
-				// hide modal
-				deleteModal.style.display = "none"
-				return
-			}
-		}
-	} else {
-		alert("Input not in the valid range.")
-	}
-}
-
 
 // undo button
 document.getElementById("undo-button").onclick = function () {
@@ -90,7 +15,7 @@ document.getElementById("undo-button").onclick = function () {
 		return
 	}
 
-	if (confirm("Restore? Are you sure?")) {
+	if (confirm("Do you want to restore the last removed item?")) {
 		// undo request for backend
 		let xhr = new XMLHttpRequest()
 		xhr.open("POST", "/undo", true)
@@ -98,17 +23,17 @@ document.getElementById("undo-button").onclick = function () {
 
 		// add row back on frontend
 		let row = document.getElementById("main-table").insertRow(-1)
-		for (i = 0; i < document.getElementsByTagName("th").length; i++) {
+		for (i = 0; i < document.getElementsByTagName("th").length + 2; i++) {
 			row.insertCell(i).innerHTML = undocache[undocache.length - 1].children[i].innerHTML
 		}
+
+		row.getElementsByTagName("td")[0].innerHTML = rows.length - 1
 
 		// remove last element from cache
 		undocache.pop()
 	}
 }
 
-// print button
-document.getElementById("print-button").onclick = function () {window.print()}
 
 // sort table
 /**
@@ -166,19 +91,11 @@ document.querySelectorAll(".table-sortable th").forEach(headerCell => {
 	});
 });
 
-// escape to close modals
-document.addEventListener("keydown", function (ev) {
-	if (ev.key == "Escape") {
-		document.getElementById("add-form-wrapper").style.display = "none"
-		document.getElementById("delete-form-wrapper").style.display = "none"
-		document.getElementById("info-modal").style.display = "none"
-	}
-})
-
 // delete all button
 document.getElementById("delete-all-btn").onclick = function () {
 	if (confirm("Are you sure, that you want to delete the entire table?")) {
 		let text = prompt("Please type the deletion key in the text box to confirm the deletion of the entire table: ")
+
 		// send deletion request
 		let xhr = new XMLHttpRequest()
 		xhr.open("POST", "/deleteall", true)

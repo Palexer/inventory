@@ -30,7 +30,7 @@ func (d *csvData) getDataHTML() string {
 			for _, cell := range row {
 				html += fmt.Sprintf("\t\t\t<th>%s</th>\n", cell)
 			}
-			html += "\t\t</tr>\n\t</thead>\n\t<tbody>\n"
+			html += "\t\t\t<td></td>\n\t\t\t<td></td>\n\t\t</tr>\n\t</thead>\n\t<tbody>\n"
 
 		} else {
 			html += fmt.Sprintf("\t\t<tr>\n\t\t\t<td>%d</td>\n", i)
@@ -38,7 +38,7 @@ func (d *csvData) getDataHTML() string {
 			for _, cell := range row {
 				html += fmt.Sprintf("\t\t\t<td>%s</td>\n", cell)
 			}
-			html += "\t\t</tr>\n"
+			html += "\t\t\t<td class=\"editCell\"><i class=\"far fa-edit\"></i></td>\n\t\t\t<td class=\"deleteCell\"><i class=\"far fa-trash-alt\"></i></td>\n\t\t</tr>\n"
 		}
 	}
 	html += "\t</tbody>"
@@ -46,7 +46,7 @@ func (d *csvData) getDataHTML() string {
 }
 
 func (d *csvData) loadData() error {
-	// create data and cache file if they doesn't exist
+	// create data and cache file if they don't exist
 	if _, err := os.Stat(data.contentPath); os.IsNotExist(err) {
 		_, err := os.Create(data.contentPath)
 		if err != nil {
@@ -55,6 +55,7 @@ func (d *csvData) loadData() error {
 		// default table heading
 		data.add([]string{"Name", "Description", "Count", "Date"})
 	}
+
 	if _, err := os.Stat(data.cachePath); os.IsNotExist(err) {
 		_, err := os.Create(data.cachePath)
 		if err != nil {
@@ -108,6 +109,33 @@ func (d *csvData) add(cells []string) error {
 	if err != nil {
 		return err
 	}
+	defer writer.Flush()
+
+	return nil
+}
+
+func (d *csvData) edit(index int, newCells []string) error {
+	if err := d.loadData(); err != nil {
+		return err
+	}
+	d.content[index] = newCells
+
+	// write file
+	file, err := os.Create(d.contentPath)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	writer := csv.NewWriter(file)
+
+	for _, rec := range d.content {
+		err = writer.Write(rec)
+		if err != nil {
+			return err
+		}
+	}
+
 	defer writer.Flush()
 
 	return nil
@@ -213,11 +241,6 @@ func (d *csvData) deleteAllAndBackUp() error {
 	}
 
 	err := os.Remove(d.contentPath)
-	if err != nil {
-		return err
-	}
-
-	err = os.Remove(d.cachePath)
 	if err != nil {
 		return err
 	}

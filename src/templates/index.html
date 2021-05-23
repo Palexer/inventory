@@ -6,10 +6,6 @@
 		Add Item
 	</button>
 
-	<button id="delete-button" class="button button-main">
-		Delete Item
-	</button>
-
 	<br>
 
 	<button id="undo-button" class="button button-normal">
@@ -40,13 +36,21 @@
 	</div>
 </div>
 
-<div id="delete-form-wrapper" class="modal">
+<div id="edit-form-wrapper" class="modal">
 	<div class="modal-content">
 		<span class="close">&times;</span>
-		<form method="POST" id="delete-form" action="/delete" target="dummyframe" autocomplete="off">
-			<input type="number" placeholder="Number" min="1" name="number" id="number" required />
+		<form id="edit-form" method="POST" action="/edit" target="dummyframe" autocomplete="off">
+			<input type="text" placeholder="Name" name="name" id="editName" required />
 			<br />
-			<input type="submit" value="Delete" class="button button-red" onclick="addDataToList()" />
+			<input type="text" placeholder="Description" name="description" id="editDescription" required />
+			<br />
+			<input type="text" placeholder="Count" name="count" id="editCount" required />
+			<br />
+			<input type="date" placeholder="Date" name="date" id="editDate" required />
+			<br />
+			<input type="number" placeholder="Number" name="index" id="index" required />
+			<br />
+			<input type="submit" value="Update Item" class="button button-main" />
 			<br />
 		</form>
 	</div>
@@ -64,7 +68,7 @@
 
 <footer>
 	<div style="float: left;">
-		<p style="margin-bottom: 10px;"><strong>Info</strong></p>
+		<p style="margin-bottom: 10px;"><strong>Inventory Info</strong></p>
 		<p>License: BSD-3-Clause License</p>
 		<a href="https://raw.githubusercontent.com/Palexer/inventory/master/LICENSE" target="_blank">Full License
 			text</a>
