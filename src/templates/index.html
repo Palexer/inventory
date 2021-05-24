@@ -58,26 +58,23 @@
 
 <br>
 
-<table id="main-table" class="table-sortable">
-	{{.TableData}}
-</table>
+<div class="table-wrapper">
+	<table id="main-table" class="table-sortable">
+		{{.TableData}}
+	</table>
+</div>
 
 <button class="button button-red" id="delete-all-btn">
 	Delete Table
 </button>
 
 <footer>
-	<div style="float: left;">
-		<p style="margin-bottom: 10px;"><strong>Inventory Info</strong></p>
-		<p>License: BSD-3-Clause License</p>
-		<a href="https://raw.githubusercontent.com/Palexer/inventory/master/LICENSE" target="_blank">Full License
-			text</a>
-		<br>
-		<a href="https://github.com/Palexer/inventory" target="_blank">Git Repository</a>
-	</div>
-	<div style="float: right;">
-		<p style="margin-top: 32px;"> Author: Palexer </p>
-	</div>
+	<p style="margin-bottom: 10px;"><strong>Inventory Info</strong></p>
+	<p>License: BSD-3-Clause License</p>
+	<a href="https://raw.githubusercontent.com/Palexer/inventory/master/LICENSE" target="_blank">Full License
+		text</a>
+	<br>
+	<a href="https://github.com/Palexer/inventory" target="_blank">Git Repository</a>
 </footer>
 <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
 {{ end }}
