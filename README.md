@@ -1,6 +1,6 @@
 # Inventory
 
-Inventory is a selfhosted web app to keep track of items in stock.
+Inventory is a selfhosted web app written in Go to keep track of items in stock.
 It's meant for use in a small scope and might not be well suited for bigger databases.
 
 Inventory works by using a CSV file for storing the data and an HTML table as a web interface.
@@ -9,7 +9,13 @@ You can sort the table by every column, so for example by count, date or alphabe
 
 ## Installation
 
-Coming soon...
+Prebuilt binaries can be found under the releases section for Linux/amd64 and
+Linux/arm64. 
+
+If you want to host the application on another operating system you can simply clone this repository
+and run in the src/ folder to get your binary.
+
+```go build -o inventory```
 
 ## Usage
 
