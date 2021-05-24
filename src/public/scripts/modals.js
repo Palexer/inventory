@@ -17,7 +17,7 @@ function setDeleteEditFuncs() {
 			document.getElementById("editDescription").value = htmlDecode(rows[i].getElementsByTagName("td")[2].innerHTML)
 			document.getElementById("editCount").value = htmlDecode(rows[i].getElementsByTagName("td")[3].innerHTML)
 			document.getElementById("editDate").value = date.toISOString().substring(0, 10)
-			document.getElementById("index").value = i
+			document.getElementById("index").value = rows[i].getElementsByTagName("td")[0].innerHTML
 		}
 	}
 
@@ -49,11 +49,6 @@ function setDeleteEditFuncs() {
 				// delete on frontend
 				rows[i + 1].remove()
 
-				// fix right undo element
-				console.log(rows[i - 1].getElementsByTagName("td")[1].innerHTML)
-				console.log(rows[i].getElementsByTagName("td")[1].innerHTML)
-				console.log(rows[i + 1].getElementsByTagName("td")[1].innerHTML)
-
 				// send deletion request
 				let text = i + 1
 				let xhr = new XMLHttpRequest()
@@ -62,8 +57,10 @@ function setDeleteEditFuncs() {
 				xhr.send(JSON.stringify({Text: text.toString()}))
 
 				// decrement following numbers
-				for (let i = text; i < rows.length; i++) {
-					rows[i].getElementsByTagName("td")[0].innerHTML = (parseInt(rows[i].getElementsByTagName("td")[0].innerHTML) - 1).toString()
+				for (let j = 1; j < rows.length; j++) {
+					if (parseInt(rows[j].getElementsByTagName("td")[0].innerHTML) > i) {
+						rows[j].getElementsByTagName("td")[0].innerHTML = (parseInt(rows[j].getElementsByTagName("td")[0].innerHTML) - 1).toString()
+					}
 				}
 				setDeleteEditFuncs()
 			}
