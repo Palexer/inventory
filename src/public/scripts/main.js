@@ -31,6 +31,7 @@ document.getElementById("undo-button").onclick = function () {
 
 		// remove last element from cache
 		undocache.pop()
+		setDeleteEditFuncs()
 	}
 }
 

@@ -43,16 +43,16 @@ function setDeleteEditFuncs() {
 	for (let i = 0; i < deleteButtons.length; i++) {
 		deleteButtons[i].onclick = function () {
 			if (confirm("Do you really want to delete this item?")) {
-				// delete on frontend
-				rows[i + 1].remove()
-
 				// push removed row to undocache
 				undocache.push(rows[i + 1])
 
+				// delete on frontend
+				rows[i + 1].remove()
+
 				// fix right undo element
-				//console.log(rows[i - 1].getElementsByTagName("td")[1].innerHTML)
-				//console.log(rows[i].getElementsByTagName("td")[1].innerHTML)
-				//console.log(rows[i + 1].getElementsByTagName("td")[1].innerHTML)
+				console.log(rows[i - 1].getElementsByTagName("td")[1].innerHTML)
+				console.log(rows[i].getElementsByTagName("td")[1].innerHTML)
+				console.log(rows[i + 1].getElementsByTagName("td")[1].innerHTML)
 
 				// send deletion request
 				let text = i + 1
