@@ -25,20 +25,20 @@ func (d *csvData) getDataHTML() string {
 
 	for i, row := range d.content {
 		if i == 0 {
-			html += "<thead>\n\t\t<tr>\n\t\t\t<th>Nr.</th>\n"
+			html += "<thead>\n\t\t\t<tr>\n\t\t\t\t<th>Nr.</th>\n"
 
 			for _, cell := range row {
-				html += fmt.Sprintf("\t\t\t<th>%s</th>\n", cell)
+				html += fmt.Sprintf("\t\t\t\t<th>%s</th>\n", cell)
 			}
-			html += "\t\t\t<td></td>\n\t\t\t<td></td>\n\t\t</tr>\n\t</thead>\n\t<tbody>\n"
+			html += "\t\t\t\t<td></td>\n\t\t\t\t<td></td>\n\t\t\t</tr>\n\t\t</thead>\n\t\t<tbody>\n"
 
 		} else {
-			html += fmt.Sprintf("\t\t<tr>\n\t\t\t<td>%d</td>\n", i)
+			html += fmt.Sprintf("\t\t\t<tr>\n\t\t\t\t<td>%d</td>\n", i)
 
 			for _, cell := range row {
-				html += fmt.Sprintf("\t\t\t<td>%s</td>\n", cell)
+				html += fmt.Sprintf("\t\t\t\t<td>%s</td>\n", cell)
 			}
-			html += "\t\t\t<td class=\"editCell\"><i class=\"far fa-edit\"></i></td>\n\t\t\t<td class=\"deleteCell\"><i class=\"far fa-trash-alt\"></i></td>\n\t\t</tr>\n"
+			html += "\t\t\t\t<td class=\"editCell\"><i class=\"far fa-edit\"></i></td>\n\t\t\t\t<td class=\"deleteCell\"><i class=\"far fa-trash-alt\"></i></td>\n\t\t\t</tr>\n"
 		}
 	}
 	html += "\t</tbody>"
