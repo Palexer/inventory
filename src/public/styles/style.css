@@ -48,11 +48,16 @@ footer * {
 
 /*table*/
 
+.table-wrapper {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
 table {
 	margin: 0 auto;
+	margin-top: 10px;
 	border-spacing: 0;
 	border-collapse: collapse;
-	page-break-before: always;
 }
 
 table tr {
@@ -230,19 +235,24 @@ form input {
 	* {
 		font-size: 12pt;
 	}
-	
+
+	.table-wrapper {
+		margin: 0px;
+	}
+
+	table thead {
+		display: table-row-group;
+	}
+
+	table tr {
+		page-break-inside: avoid;
+	}
+
 	/* hide edit and delte icon from table when printing */
 	table td:nth-child(6), table td:nth-child(7) {
 		display: none;
 	}
 
-	table { page-break-after:auto }
-	tr    { page-break-inside:avoid; page-break-after:auto }
-	td    { page-break-inside:avoid; page-break-after:auto }
-	thead { display:table-header-group }
-	tfoot { display:table-footer-group }
-
-	
 	.button, footer {
 		display: none;
 	}
@@ -256,6 +266,10 @@ form input {
 @media only screen and (max-width: 600px) {
 	* {
 		font-size: 12pt;
+	}
+
+	h1 {
+		font-size: 20pt;
 	}
 
 	table {
