@@ -25,8 +25,15 @@ function setDeleteEditFuncs() {
 	document.getElementById("edit-form").onsubmit = function () {
 		let i = document.getElementById("index").value
 
+		// get correct row
+		let row
+		for (let j = 0; j < rows.length; j++) {
+			if (rows[j].getElementsByTagName("td")[0].innerHTML == i) {
+				row = rows[j]
+			}
+		}
+
 		// edit the entered data in the HTML table
-		let row = rows[i]
 		let splittedDate = document.getElementById("editDate").value.split("-")
 		row.getElementsByTagName("td")[1].innerHTML = document.getElementById("editName").value
 		row.getElementsByTagName("td")[2].innerHTML = document.getElementById("editDescription").value
