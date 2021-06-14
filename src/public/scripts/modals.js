@@ -47,21 +47,24 @@ function setDeleteEditFuncs() {
 	// delete items
 	let deleteButtons = document.getElementsByClassName("deleteCell")
 
-	for (let i = 0; i < deleteButtons.length; i++) {
-		deleteButtons[i].onclick = function () {
+	for (let i = 1; i < rows.length; i++) {
+		deleteButtons[i - 1].onclick = function () {
 			if (confirm("Do you really want to delete this item?")) {
-				// push removed row to undocache
-				undocache.push(rows[i + 1])
-
-				// delete on frontend
-				rows[i + 1].remove()
-
 				// send deletion request
-				let text = i + 1
+				let text = rows[i].getElementsByTagName("td")[0].innerHTML
+				console.log(text)
+
 				let xhr = new XMLHttpRequest()
 				xhr.open("POST", "/delete", true)
 				xhr.setRequestHeader("Content-Type", "application/json")
 				xhr.send(JSON.stringify({Text: text.toString()}))
+
+				// push removed row to undocache
+				undocache.push(rows[i])
+
+				// delete on frontend
+				rows[i].remove()
+
 
 				// decrement following numbers
 				for (let j = 1; j < rows.length; j++) {
